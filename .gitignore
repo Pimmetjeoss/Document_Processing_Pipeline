@@ -1,0 +1,91 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+venv/
+ENV/
+env/
+.venv
+
+# Environment variables - CRITICAL
+.env
+.env.local
+.env.*.local
+*.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+document_converter.log
+
+# Test files
+tests/test_direct_key.py
+tests/test_openai.py
+
+# Output/scratch directories - VOLLEDIG NEGEREN
+scratch/
+
+# Document files - NIET MEENEMEN
+*.pdf
+*.docx
+*.doc
+*.pptx
+*.xlsx
+*.xls
+
+# Output formats
+*.json
+*.yaml
+*.md
+*_chunks.txt
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# API keys and credentials
+*_key.txt
+*_token.txt
+credentials.json
+secrets.yaml
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Cache
+.cache/
+__pycache__/
+*.pyc
+
+# Railway
+.railway/

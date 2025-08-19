@@ -1,0 +1,6 @@
+pymilvus
+docling
+openai
+docling-core
+python-dotenv
+tqdm
