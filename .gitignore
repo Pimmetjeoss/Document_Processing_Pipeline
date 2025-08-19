@@ -64,8 +64,11 @@ scratch/
 # Output formats
 *.json
 *.yaml
-*.md
 *_chunks.txt
+
+# Markdown files (except README)
+*.md
+!README.md
 
 # Jupyter
 .ipynb_checkpoints/
