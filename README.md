@@ -1,13 +1,16 @@
-# Document Processing Pipeline
+# Document Processing Pipeline + FastAPI
 
-Een krachtige RAG (Retrieval-Augmented Generation) pipeline voor het verwerken van documenten met Milvus/Zilliz Cloud vector database en OpenAI embeddings.
+Een krachtige RAG (Retrieval-Augmented Generation) pipeline voor het verwerken van documenten met Milvus/Zilliz Cloud vector database en OpenAI embeddings, nu met FastAPI web interface voor file uploads en API-gebaseerde search.
 
 ## 🚀 Functies
 
-- **Multi-format document ondersteuning**: Verwerkt PDF, DOCX, TXT, MD, CSV, JSON, HTML, XML, en meer
+- **FastAPI Web Interface**: Upload documenten via REST API met automatische processing
+- **Multi-format document ondersteuning**: Verwerkt PDF en DOCX via web uploads
 - **Intelligente chunking**: Gebruikt hiërarchische chunking voor optimale tekstsegmentatie
 - **Vector opslag**: Integreert met Milvus/Zilliz Cloud voor schaalbare vector database opslag
-- **AI-powered search**: Gebruikt OpenAI embeddings voor semantische zoekfunctionaliteit
+- **AI-powered search**: Gebruikt OpenAI embeddings voor semantische zoekfunctionaliteit via API
+- **Railway deployment ready**: Direct deploybaar op Railway met Procfile
+- **CORS enabled**: Frontend-ready met Cross-Origin Resource Sharing
 - **Configureerbaar**: Volledig configureerbaar via environment variabelen
 
 ## 📋 Vereisten
@@ -58,17 +61,95 @@ COLLECTION_NAME=my_rag_collection
 ```
 Document_Processing_Pipeline/
 │
-├── rag_milvus.py           # Hoofdscript voor document processing en RAG
-├── simple_converter.py     # Utility voor eenvoudige document conversie
-├── requirements.txt        # Python dependencies
-├── .env                   # Environment variabelen (niet in git)
-├── .gitignore            # Git ignore configuratie
-└── README.md             # Deze file
+├── main.py                # FastAPI web application
+├── rag_milvus.py          # Hoofdscript voor document processing en RAG
+├── simple_converter.py    # Utility voor eenvoudige document conversie
+├── requirements.txt       # Python dependencies (inclusief FastAPI)
+├── Procfile              # Railway deployment configuratie
+├── .env                  # Environment variabelen (niet in git)
+├── .gitignore           # Git ignore configuratie
+└── README.md            # Deze file
 ```
 
 ## 🚀 Gebruik
 
-### Basis gebruik
+### FastAPI Web Interface (Aanbevolen)
+
+**Lokaal testen:**
+```bash
+# Start de FastAPI development server
+uvicorn main:app --reload --host 127.0.0.1 --port 8000
+
+# Of gebruik FastAPI CLI (requires fastapi[standard])
+pip install "fastapi[standard]"
+fastapi dev main.py
+```
+
+**API Endpoints:**
+
+1. **Health Check**
+   ```bash
+   GET http://localhost:8000/
+   ```
+
+2. **Document Upload & Processing**
+   ```bash
+   POST http://localhost:8000/upload
+   Content-Type: multipart/form-data
+   
+   # Upload een PDF of DOCX file
+   curl -X POST -F "file=@document.pdf" http://localhost:8000/upload
+   ```
+
+3. **Search in Knowledge Base**
+   ```bash
+   POST http://localhost:8000/search
+   Content-Type: application/json
+   
+   {
+     "question": "Wat zijn de belangrijkste punten?",
+     "limit": 3
+   }
+   ```
+
+4. **Collection Statistics**
+   ```bash
+   GET http://localhost:8000/stats
+   ```
+
+**Interactive API Documentation:**
+- Swagger UI: `http://localhost:8000/docs`
+- ReDoc: `http://localhost:8000/redoc`
+
+### Railway Deployment
+
+1. **Deployment voorbereiden:**
+   ```bash
+   # Zorg ervoor dat alle bestanden aanwezig zijn:
+   # - main.py
+   # - requirements.txt  
+   # - Procfile
+   ```
+
+2. **Deploy naar Railway:**
+   ```bash
+   # Installeer Railway CLI
+   npm install -g @railway/cli
+   
+   # Login en deploy
+   railway login
+   railway up
+   ```
+
+3. **Environment Variables instellen in Railway Dashboard:**
+   ```
+   OPENAI_API_KEY=your_openai_api_key
+   ZILLIZ_ENDPOINT=your_zilliz_endpoint
+   ZILLIZ_TOKEN=your_zilliz_token
+   COLLECTION_NAME=my_rag_collection
+   ```
+
+### Basis gebruik (Python Script)
 
 1. **Plaats documenten in de `docs/` folder**
 ```bash
