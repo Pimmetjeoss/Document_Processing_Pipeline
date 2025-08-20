@@ -255,4 +255,26 @@ Voor vragen of ondersteuning, maak een issue aan op [GitHub](https://github.com/
 
 ---
 
+## Verbeterpunten
+### Critical (Security & Reliability):
+
+- Geen authenticatie/authorization mechanisme
+- Beperkte input validatie (file size/type checks ontbreken)
+- Geen rate limiting op API endpoints
+- Error handling kan robuuster (vooral bij OpenAI API failures)
+
+### Performance:
+
+- Synchrone document processing blokkeert bij grote files
+- Geen caching strategie voor embeddings
+- Batch embedding calls zouden API kosten verlagen
+- Connection pooling voor Milvus ontbreekt
+
+### Functionaliteit:
+
+- Docling's OCR capabilities worden niet benut
+- Geen metadata extraction (auteur, datum, etc.)
+- Chunking overlap ontbreekt (context verlies tussen chunks)
+- Hybrid search (dense + sparse) niet geïmplementeerd
+
 *Gebouwd met ❤️ met behulp van Docling, Milvus, en OpenAI*
