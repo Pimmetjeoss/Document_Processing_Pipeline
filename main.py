@@ -83,7 +83,14 @@ async def upload_file(file: UploadFile = File(...)):
         
         # Generate embeddings and prepare data
         data = []
-        chunk_id = 0
+        # Get current collection stats to generate unique IDs
+        try:
+            stats = milvus_client.get_collection_stats(collection_name)
+            current_count = stats.get('row_count', 0)
+        except:
+            current_count = 0
+        
+        chunk_id = current_count
         
         for chunk in tqdm(chunks, desc="Embedding chunks"):
             embedding = emb_text(chunk.text)

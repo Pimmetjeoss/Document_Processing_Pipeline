@@ -72,20 +72,25 @@ def process_documents():
     
     print(f"Found {len(files)} documents")
     
-    # Setup Milvus collection
-    if milvus_client.has_collection(collection_name):
-        milvus_client.drop_collection(collection_name)
+    # Setup Milvus collection (only create if it doesn't exist)
+    if not milvus_client.has_collection(collection_name):
+        milvus_client.create_collection(
+            collection_name=collection_name,
+            dimension=1536,  # text-embedding-3-small dimension
+            metric_type="IP",
+            consistency_level="Bounded"  # Better for cloud
+        )
     
-    milvus_client.create_collection(
-        collection_name=collection_name,
-        dimension=1536,  # text-embedding-3-small dimension
-        metric_type="IP",
-        consistency_level="Bounded"  # Better for cloud
-    )
+    # Get current collection stats to generate unique IDs
+    try:
+        stats = milvus_client.get_collection_stats(collection_name)
+        current_count = stats.get('row_count', 0)
+    except:
+        current_count = 0
     
     # Process each document
     data = []
-    chunk_id = 0
+    chunk_id = current_count
     
     for file_path in files:
         print(f"Processing {file_path.name}...")
